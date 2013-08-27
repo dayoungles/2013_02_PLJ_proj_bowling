@@ -1,33 +1,47 @@
 
 public class Pin {
-	public enum CollapsedPin{
-		GUTTER(0),
-		COUNT1(1),
-		COUNT2(2),
-		COUNT3(3),
-		COUNT4(4),
-		COUNT5(5),
-		COUNT6(6),
-		COUNT7(7),
-		COUNT8(8),
-		COUNT9(9),
-		STRIKE(10);
-		
-		private int collapsedPin;
-		
-		private CollapsedPin(int collapsedPin){
-			this.collapsedPin = collapsedPin;
-		}
+//	public enum PinSymbol{
+//		GUTTER('0'),
+//		ONE('1'),
+//		TWO('2'),
+//		THREE('3'),
+//		FOUR('4'),
+//		FIVE('5'),
+//		SIX('6'),
+//		SEVEN('7'),
+//		EIGHT('8'),
+//		NINE('9'),
+//		STRIKE('X'),
+//		SPARE('/');
+//		
+//		private int collapsedPin;
+//		
+//		private PinSymbol(int collapsedPin){
+//			this.collapsedPin = collapsedPin;
+//		}
+//	}
 
-	}
 	
-	public static CollapsedPin collapsedPin;
+//	public static PinSymbol pinSymbol;
+	public int collapsedPin;
+	public int frame;
+	//public int throwCount;
 	
-	Pin(CollapsedPin collapsedPin){
+
+	Pin(int collapsedPin, int frame){
 		this.collapsedPin = collapsedPin;
+		this.frame = frame;
+		//this.throwCount = throwCount;
 	}
-	public static CollapsedPin getCollapsedPin(){
+
+	public int getCollapsedPin(){
 		return collapsedPin;
 	}
+	public int getFrame(){
+		return frame;
+	}
+//	public int getThrowNumber(){
+//		return throwCount;
+//	}
 	
 }
