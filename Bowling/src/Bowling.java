@@ -35,7 +35,7 @@ public class Bowling {
 	void printSymbolLine() {
 		for (int frameCount =0; frameCount < rolling.frameList.size(); frameCount++){
 			for(int throwCount = 0; throwCount < 2; throwCount++){
-				System.out.printf("%d|", rolling.frameList.get(frameCount).getPinFromFrame(throwCount).getCollapsedPin());
+				System.out.printf("%c|", rolling.frameList.get(frameCount).getPinFromFrame(throwCount).getSymbol());
 			}
 		}
 	}
