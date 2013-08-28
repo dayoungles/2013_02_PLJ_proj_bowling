@@ -1,33 +1,54 @@
-import java.util.Scanner;
+import java.util.ArrayList;
 
-
+/**
+ * 가지고 있어야 할 기능
+ * 1. 프린트
+ * 2. 프레임 간  계산 기능 
+ * 
+ * @author dayoungle
+ *
+ */
 public class Bowling {
-	int []pinArray = new int[20];
-	int []pointArray = new int[10];
-	int frame;
+	
+/*
+ * 플레이 순서
+ * rolling -> 점수 받음 ->(계산 -> 출력할지 출력하지 않을지 고려) ->출력/대기 
+ */
+	Rolling rolling = new Rolling();
 	/**
-	 * 핀의 갯수를 사용자로부터 입력받음.
-	 * @return 핀 갯수.
+	 * 화면 전체 출력
 	 */
-	public int getPinCount(){
-		Scanner scan = new Scanner(System.in);
-		int pinCount = scan.nextInt();
-		return pinCount;
+	void printBoard(){
+		System.out.println("------------------------------------------");
+		System.out.println("| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |");
+		System.out.println("------------------------------------------");
+		printSymbolLine();
+		System.out.println();
+		
+		System.out.println("------------------------------------------");
+		System.out.println("Score Line");
 	}
 	
-	public void roll(int pinCount, int frame ){
-		if(frame % 2 == 0){
-			pinArray[frame/2] = pinCount;
-		} else {
-			pinArray[frame / 2 + 1] = pinCount;
+	/**
+	 * 심볼라인 출력 
+	 */
+	void printSymbolLine() {
+		for (int frameCount =0; frameCount < rolling.frameList.size(); frameCount++){
+			for(int throwCount = 0; throwCount < 2; throwCount++){
+				System.out.printf("%d|", rolling.frameList.get(frameCount).getPinFromFrame(throwCount).getCollapsedPin());
+			}
 		}
 	}
 	
-	public void printPin(){
-		System.out.println("-----------------------------------------------------");
-		for(int pin : pinArray){
-			System.out.println("|" + pin + "|");
+	/**
+	 * 1플레이어 볼링 게임. 
+	 */
+	void letsBowling(){
+		for (int frameCount = 0; frameCount <10; frameCount ++){
+			rolling.roll(frameCount);
+			printBoard();
 		}
-		System.out.println("------------------------------------------------------");
 	}
+	
+	
 }
