@@ -18,4 +18,11 @@ public class FrameTest extends TestCase {
 		frame.getPins();
 		assertEquals(8, frame.getPins());
 	}
+	
+	public void testSetPin2Frame() throws Exception {
+		frame.addPin2Frame(new Pin(5,0));
+		frame.addPin2Frame(new Pin(4,0));
+		frame.setPin2Frame(0, new Pin(10,0));
+		assertEquals(10, frame.getPin(0).getCollapsedPin());
+	}
 }
