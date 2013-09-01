@@ -1,32 +1,55 @@
 import java.util.ArrayList;
 import java.util.List;
 
+public class Frame {
 
-
-public class Frame{
-	
-	int maxThrowChancePerFrame= 2;
-	int fullThrowCount = 0;
 	int frameNumber;
-	int throwNumber;
-	
-	List<Pin> frame = new ArrayList<Pin>();
-	
-	
-	Frame(int frameNumber){
-		this.frameNumber = frameNumber - 1;
-//		this.throwNumber = throwNumber;
+	int waitNumber = 0;
+	List<Pin> pinList = new ArrayList<Pin>();
+
+	Frame(int frameNumber) {
+		this.frameNumber = frameNumber;
+		// this.throwNumber = throwNumber;
 
 	}
 
-	public void addPin2Frame(Pin pin){
-		frame.add(pin);
+	public void addPin2Frame(Pin pin) {
+		pinList.add(pin);
 	}
 	
-	public int getFrameNumber(){
+	public void setPin2Frame(int index, Pin pin) {
+		pinList.set(index, pin);
+	}
+
+	public int getFrameNumber() {
 		return frameNumber;
 	}
-	public Pin getPinFromFrame(int index){
-		return frame.get(index);
+
+	/**
+	 * 핀리스트의 핀 합계 
+	 * @return
+	 */
+	public int getPins() {
+		int sum = 0;
+		for (Pin pin : pinList) {
+			sum += pin.getCollapsedPin();
+		}
+		return sum;
 	}
+
+	public int getThrowNumber() {
+		return pinList.size();
+	}
+
+	/**
+	 * List<Pin> frame으로부터
+	 * 
+	 * @param index
+	 * @return 인덱스에 위치한 핀 객체
+	 */
+	public Pin getPin(int index) {
+		return pinList.get(index);
+	}
+	
+
 }
