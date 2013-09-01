@@ -25,4 +25,8 @@ public class FrameTest extends TestCase {
 		frame.setPin2Frame(0, new Pin(10,0));
 		assertEquals(10, frame.getPin(0).getCollapsedPin());
 	}
+	public void testgetFrameNumber() throws Exception {
+		frame.getFrameNumber();
+		assertEquals(0, frame.getFrameNumber());
+	}
 }
