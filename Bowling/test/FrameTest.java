@@ -29,4 +29,16 @@ public class FrameTest extends TestCase {
 		frame.getFrameNumber();
 		assertEquals(0, frame.getFrameNumber());
 	}
+	public void testGetThrowNumber() throws Exception {
+		frame.addPin2Frame(new Pin(3,0));
+		frame.addPin2Frame(new Pin(7,0));
+		assertEquals(2, frame.getThrowNumber());
+		
+	}
+	public void testGetPin() throws Exception {
+		Pin pinTest = new Pin(3,0);
+		frame.addPin2Frame(pinTest);
+		frame.addPin2Frame(new Pin(3,0));
+		assertEquals(pinTest, frame.getPin(0));
+	}
 }
