@@ -49,5 +49,9 @@ public class RollingTest extends TestCase {
 		assertEquals('X', rolling.frameList.get(0).getPin(1).getSymbol());
 		assertEquals('X', rolling.frameList.get(0).getPin(2).getSymbol());
 	}
+	public void testCalc() throws Exception {
+		rolling.roll(0);
+		assertEquals(10, rolling.frameList.get(0).getPins());
+	}
 	
 }
