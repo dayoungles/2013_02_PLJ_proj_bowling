@@ -40,7 +40,7 @@ public class RollingTest extends TestCase {
 		// 스트라이크- 0 -스페어 10처리 
 		assertEquals('X', rolling.frameList.get(0).getPin(0).getSymbol());
 		assertEquals('/', rolling.frameList.get(0).getPin(2).getSymbol());
-
+		
 	}
 	public void testFrame10_3() throws Exception {
 		rolling.roll(9);

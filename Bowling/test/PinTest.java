@@ -3,7 +3,7 @@ import junit.framework.TestCase;
 
 public class PinTest extends TestCase {
 	private Pin pin;
-	@Override
+	@Override	
 	protected void setUp() throws Exception {
 		pin = new Pin(1,1);
 		super.setUp();

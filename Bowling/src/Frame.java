@@ -35,7 +35,7 @@ public class Frame {
 			sum += pin.getCollapsedPin();
 		}
 		return sum;
-	}
+	}	
 
 	public int getThrowNumber() {
 		return pinList.size();

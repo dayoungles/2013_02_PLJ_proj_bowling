@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
+	
 /**
  * 가지고 있어야 할 기능 1. 프린트(보드 프린트, (심볼 프린트, 스코어 프린트)) 2. 프레임 간 계산 기능
  * 
@@ -36,6 +36,7 @@ public class Bowling {
 			System.out.printf("%3d|", sum);
 		}
 		System.out.println();
+		System.out.println();
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class Bowling {
 		for (int frameCount = 0; frameCount < rolling.frameList.size(); frameCount++) {
 			Frame f = rolling.frameList.get(frameCount);
 			for (int throwCount = 0; throwCount < 3; throwCount++) {
-				if ((frameCount == 9 && f.getPin(0).getCollapsedPin() != 10 || frameCount != 9)
+				if ((frameCount == 9 && f.getThrowNumber() <= throwCount || frameCount != 9)
 						&& throwCount == 2)
 					break;
 
@@ -68,9 +69,9 @@ public class Bowling {
 			rolling.roll(frameCount);
 			printBoard();
 		}
-		if (frameCount > 10) {
-			throw new gameOverException("Game over");
-		}
+
+		throw new gameOverException("Game over");
+
 	}
 
 }

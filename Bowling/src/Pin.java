@@ -1,4 +1,4 @@
-public class Pin {
+public class Pin {	
 	public enum PinSymbol {
 		GUTTER('0'), STRIKE('X'), SPARE('/');
 

@@ -14,18 +14,24 @@ public class Rolling {
 	Frame newPinList;
 
 	/**
-	 * 핀의 개수를 사용자로부터 입력받음.
+	 * 핀의 개수를 사용자로부터 입력받음
+	 * 
+	 * @param reaminPin
+	 *            / 내가 쓰러트리고 남아있는 핀.
 	 * 
 	 * @return 핀 개수.
 	 */
-	public int getPinCount() {
+	public int getPinCount(int remainPin) {
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Input Pin Number");
-		int pinCount = scan.nextInt();
-		while (pinCount > 10 || pinCount < 0) {
+		int pinCount = 0;
+		while (true) {
 			scan = new Scanner(System.in);
-			System.out.println("Input Pin Number from 0 to 10");
+			System.out.println("Input Pin Number from 0 to " + remainPin);
 			pinCount = scan.nextInt();
+
+			if (remainPin - pinCount >= 0)
+				break;
+
 		}
 		return pinCount;
 	}
@@ -39,54 +45,85 @@ public class Rolling {
 	 */
 	public void roll(int frameNumber) {
 		newPinList = new Frame(frameNumber);
-		boolean bonus = false;
+		int bonus = 0;
+		int remainPin = 10;
 
 		for (int rollCount = 0; rollCount < 3; rollCount++) {
-			if (rollCount == 2 && !bonus)
+			if (rollCount == 2 && bonus == 0)
 				break;
 
 			int collapsedPin;
-			collapsedPin = getPinCount();
+			System.out.printf("This turn is %d throw of %d frame",
+					rollCount + 1, frameNumber + 1);
+			System.out.println();
+			collapsedPin = getPinCount(remainPin);
 			newPinList.addPin2Frame(new Pin(collapsedPin, frameNumber));
+			remainPin -= collapsedPin;
 			
-			if (rollCount == 0 && frameNumber == 9 && collapsedPin == 10)
-				bonus = true;
-
-			if (!bonus && collapsedPin == 10) {
-				newPinList.waitNumber = 2;
-				break;
+			if (remainPin == 0) {
+				if (frameNumber == 9) {// 마지막 프레임 처리.
+					remainPin = 10;
+					
+					boolean firstStrike = (newPinList.getPin(0).getCollapsedPin() == 10);
+					//마지막 프레임 경우의 수 
+					// 스트라이크-숫자- 스페
+					// 숫자- 스페어 - 스트라이
+					// 스트라이크- 0 -스트라이크 
+					// 스트라이크- 스트라이크/스트라이크
+					// 숫자 숫자 
+					
+					bonus++;
+					//bonus  ->  1  1번 다 쓰러트림
+					//bonus ->  2  2번 다 쓰러트림
+					//bonus -> 3  3번 다 쓰트라이크.
+					
+					//X2/
+					
+					if (firstStrike && bonus == 2 && rollCount == 2) { // 마지막 프레임이 3번째 스페어. 처번째 스트라이크 1
+						newPinList.setPin2Frame(rollCount, new Pin(
+								collapsedPin, frameNumber, true));
+					}
+					else if ( bonus == 1 && rollCount == 1 ) { //  2번째 스페어.
+						//2/X
+						newPinList.setPin2Frame(rollCount, new Pin(
+								collapsedPin, frameNumber, true));
+					} // else 스트라이크.
+				} else {
+					if (rollCount == 1) { // 2번째 다 쓰러트림. 스페어.
+						newPinList.waitNumber = 1;
+						newPinList.setPin2Frame(rollCount, new Pin(
+								collapsedPin, frameNumber, true));//스페어 체인지.
+						
+					} else if (rollCount == 0) {// 1번째 다 쓰러트림. 스트라이크.
+						newPinList.waitNumber = 2;
+					}
+					break;
+				}
 			}
-
-			if (rollCount == 1) {
-				handlingSpare(frameNumber, newPinList);
-			}
+			// handlingSpare(frameNumber, newPinList, reaminPin);
 		}
-		while (frameNumber != 9
-				&& newPinList.getThrowNumber() != 1
-				&& newPinList.getPin(0).getCollapsedPin()
-						+ newPinList.getPin(1).getCollapsedPin() > 10) {
-			System.out.println("Input proper score");
-			int collapsedPin = getPinCount();
-			Pin newPin = new Pin(collapsedPin, frameNumber);
-			newPinList.setPin2Frame(1, newPin);
-
-			handlingSpare(frameNumber, newPinList);
-		}
+		// while (frameNumber != 9
+		// && newPinList.getThrowNumber() != 1
+		// && newPinList.getPin(0).getCollapsedPin()
+		// + newPinList.getPin(1).getCollapsedPin() > 10) {
+		// System.out.println("Input proper score");
+		// int collapsedPin = getPinCount();
+		// Pin newPin = new Pin(collapsedPin, frameNumber);
+		// newPinList.setPin2Frame(1, newPin);
+		//
+		// handlingSpare(frameNumber, newPinList);
+		// }
 		frameList.add(newPinList);
 		calc(frameNumber);
 	}
 
-	private void handlingSpare(int frameNumber, Frame newFrame) {
-		if (newFrame.getPin(0).getCollapsedPin()
-				+ newFrame.getPin(1).getCollapsedPin() == 10) {
-			Pin sparePin = new Pin(newFrame.getPin(1).getCollapsedPin(),
-					frameNumber, true);
-			newFrame.setPin2Frame(1, sparePin);
-			newPinList.waitNumber = 1;
-			// newFrame.pinList.remove(2);
-		}
-	}
-
+	/**
+	 * 스트라이크를 하면 앞에 던진 2번의 쓰러진  핀의 갯수를 더하고 스페어를 하면 앞에 던진 1번의 쓰러진  핀의 갯수를 더한다.
+	 * 
+	 * 
+	 * @param frameNumber
+	 *            0 to frameNumber 점수 계산.
+	 */
 	public void calc(int frameNumber) {
 
 		score.clear();
@@ -97,6 +134,7 @@ public class Rolling {
 
 			int j = i + 1;
 
+				// 스페어랑, 스트라이크를 처리하는 부분.
 			while (frameNumber >= j) {
 				Frame f2 = frameList.get(j);
 				for (int k = 0; k < f2.getThrowNumber(); k++) {
@@ -109,6 +147,7 @@ public class Rolling {
 				}
 				j++;
 			}
+
 			score.add(sum);
 		}
 	}
