@@ -28,5 +28,26 @@ public class RollingTest extends TestCase {
 		assertEquals('/', rolling.frameList.get(0).getPin(2).getSymbol());
 	}
 
+	public void testFrame10_1() throws Exception{
+		rolling.roll(9);
+		// 숫자- 스페어 - 스트라이
+		assertEquals('/', rolling.frameList.get(0).getPin(1).getSymbol());
+		assertEquals('X', rolling.frameList.get(0).getPin(2).getSymbol());
+	}
+	
+	public void testFrame10_2() throws Exception {
+		rolling.roll(9);
+		// 스트라이크- 0 -스페어 10처리 
+		assertEquals('X', rolling.frameList.get(0).getPin(0).getSymbol());
+		assertEquals('/', rolling.frameList.get(0).getPin(2).getSymbol());
+
+	}
+	public void testFrame10_3() throws Exception {
+		rolling.roll(9);
+		// 스트라이크- 스트라이크/스트라이크
+		assertEquals('X', rolling.frameList.get(0).getPin(0).getSymbol());
+		assertEquals('X', rolling.frameList.get(0).getPin(1).getSymbol());
+		assertEquals('X', rolling.frameList.get(0).getPin(2).getSymbol());
+	}
 	
 }
